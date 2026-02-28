@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             x:Class="windiff.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="ColorBaseBackground">#F7F7F7</Color>
+            <Color x:Key="ColorItemBackground">#F2F2F2</Color>
+            <Color x:Key="ColorSectionBackground">#EAEAEA</Color>
+
+            <Color x:Key="ColorHover">#E0E7EF</Color>
+            <Color x:Key="ColorPressed">#C7D4E0</Color>
+
+            <Color x:Key="ColorBorder">#D6D6D6</Color>
+            <Color x:Key="ColorSeparator">#CFCFCF</Color>
+
+            <Color x:Key="ColorTextPrimary">#333333</Color>
+            <Color x:Key="ColorTextSecondary">#666666</Color>
+            <Color x:Key="ColorTextDisabled">#A8A8A8</Color>
+
+            <Color x:Key="ColorIconDefault">#4A4A4A</Color>
+            <Color x:Key="ColorIconAccent">#2B6CB0</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <toolkit:DockLayout>
+        <StackLayout toolkit:DockLayout.DockPosition="Bottom" HeightRequest="20" BackgroundColor="{StaticResource ColorItemBackground}">
+            <StackLayout Orientation="Horizontal">
+                <Grid ColumnDefinitions="*,20,20" HorizontalOptions="FillAndExpand">
+                    <Label Grid.Column="0"
+                           Text="{Binding Messaging}"
+                           FontFamily="MapleMonoCNThin"
+                           FontSize="12"
+                           HeightRequest="20"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Fill"
+                           TextColor="{StaticResource ColorTextSecondary}" />
+                    <Label Grid.Column="1"
+                           IsVisible="{Binding Items.Count, Converter={StaticResource HasValueBool}}"
+                           Text="&#xf019;"
+                           FontFamily="FontAwesome"
+                           FontSize="12"
+                           HeightRequest="20"
+                           HorizontalOptions="Fill"
+                           VerticalTextAlignment="Center"
+                           TextColor="{StaticResource ColorIconDefault}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Button_Clicked" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <ActivityIndicator Grid.Column="2"
+                                       IsRunning="{Binding Running}"
+                                       IsVisible="{Binding Running}"
+                                       WidthRequest="20"
+                                       HeightRequest="20"
+                                       HorizontalOptions="Center"
+                                       Color="{StaticResource ColorIconAccent}" />
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+
+        <ContentView>
+            <Grid RowDefinitions="Auto,*"
+                  HorizontalOptions="Fill">
+
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="*,Auto"
+                      HorizontalOptions="Fill"
+                      BackgroundColor="{StaticResource ColorBaseBackground}">
+                    <Entry Grid.Column="0"
+                           Text="{Binding Searching}"
+                           IsEnabled="{Binding Running, Converter={StaticResource InverseBool}}"
+                           Placeholder="输入目的地址以筛选…"
+                           FontFamily="MapleMonoCNThin"
+                           FontSize="12"
+                           HorizontalOptions="Fill"
+                           TextColor="{StaticResource ColorTextSecondary}" />
+                    <Picker Grid.Column="1"
+                            IsEnabled="{Binding Running, Converter={StaticResource InverseBool}}"
+                            SelectedIndex="0"
+                            SelectedIndexChanged="Picker_SelectedIndexChanged"
+                            FontFamily="MapleMonoCNThin"
+                            FontSize="12"
+                            WidthRequest="120"
+                            TextColor="{StaticResource ColorTextSecondary}">
+                        <Picker.Items>
+                            <x:String></x:String>
+                            <x:String>Hash</x:String>
+                            <x:String>Name</x:String>
+                            <x:String>Extension</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Grid>
+
+                <!--https://support.syncfusion.com/kb/article/14454/how-to-customize-groupcaptiontextformat-in-net-maui-datagrid-sfdatagrid-->
+                <syncfusion:SfDataGrid Grid.Row="1" x:Name="grid"
+                                       ItemsSource="{Binding Items}"
+                                       ContextMenuItemClicked="Grid_ContextMenuItemClicked"
+                                       ColumnResizing="Grid_ColumnResizing"
+                                       AllowResizingColumns="True"
+                                       SortingMode="Single"
+                                       GroupingMode="Single"
+                                       HeaderGridLinesVisibility="Vertical"
+                                       EnableDataVirtualization="True"
+                                       GroupCaptionTextFormat="{}{Key}({ItemsCount})"
+                                       AutoGenerateColumnsMode="None"
+                                       AllowRowHoverHighlighting="True"
+                                       HeaderRowHeight="20"
+                                       RowHeight="20"
+                                       SelectionUnit="Cell"
+                                       SelectionMode="Extended"
+                                       ScrollingMode="Line"
+                                       HorizontalScrollBarVisibility="Never"
+                                       VerticalScrollBarVisibility="Always"
+                                       HorizontalOptions="Fill">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:DataGridTextColumn MappingName="Directory"
+                                                       HeaderText="目录"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="Start"
+                                                       CellTextAlignment="Start" />
+                        <syncfusion:DataGridTextColumn MappingName="Name"
+                                                       HeaderText="名称"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="True"
+                                                       HeaderTextAlignment="Start"
+                                                       CellTextAlignment="Start" />
+                        <syncfusion:DataGridTextColumn MappingName="Extension"
+                                                       HeaderText="类型"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="End"
+                                                       CellTextAlignment="End" />
+                        <syncfusion:DataGridTextColumn MappingName="Size"
+                                                       HeaderText="大小"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="End"
+                                                       CellTextAlignment="End">
+                            <syncfusion:DataGridTextColumn.DisplayBinding>
+                                <Binding Path="SizeText" />
+                            </syncfusion:DataGridTextColumn.DisplayBinding>
+                        </syncfusion:DataGridTextColumn>
+                        <syncfusion:DataGridDateColumn MappingName="CreationTime"
+                                                       HeaderText="创建时间"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="Start"
+                                                       CellTextAlignment="Start"
+                                                       Format="yyyy-MM-dd hh:mm:ss" />
+                        <syncfusion:DataGridDateColumn MappingName="UpdateTime"
+                                                       HeaderText="更新时间"
+                                                       Width="200"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="Start"
+                                                       CellTextAlignment="Start"
+                                                       Format="yyyy-MM-dd hh:mm:ss" />
+                        <syncfusion:DataGridTextColumn MappingName="Hash"
+                                                       HeaderText="哈希"
+                                                       Width="160"
+                                                       MinimumWidth="100"
+                                                       Visible="False"
+                                                       HeaderTextAlignment="Start"
+                                                       CellTextAlignment="Start" />
+                    </syncfusion:SfDataGrid.Columns>
+                    <syncfusion:SfDataGrid.HeaderContextMenu>
+                        <syncfusion:MenuItemCollection>
+                            <syncfusion:MenuItem Text="Directory">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                            <syncfusion:MenuItem Text="Extension">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                            <syncfusion:MenuItem Text="Size">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                            <syncfusion:MenuItem Text="CreationTime">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                            <syncfusion:MenuItem Text="UpdateTime">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                            <syncfusion:MenuItem Text="Hash">
+                                <syncfusion:MenuItem.Icon>
+                                    <Label Text="" FontFamily="FontAwesome" TextColor="{StaticResource ColorIconDefault}" FontSize="12" />
+                                </syncfusion:MenuItem.Icon>
+                            </syncfusion:MenuItem>
+                        </syncfusion:MenuItemCollection>
+                    </syncfusion:SfDataGrid.HeaderContextMenu>
+                    <syncfusion:SfDataGrid.DefaultStyle>
+                        <syncfusion:DataGridStyle GridLineStrokeThickness="0"
+                                                  HeaderRowFontFamily="MapleMonoCNThin"
+                                                  RowFontFamily="MapleMonoCNThin"
+                                                  CaptionSummaryRowFontFamily="MapleMonoCNThin"
+                                                  HeaderRowFontSize="12"
+                                                  RowFontSize="12"
+                                                  CaptionSummaryRowFontSize="12"
+                                                  HeaderRowBackground="{StaticResource ColorBaseBackground}"
+                                                  RowBackground="{StaticResource ColorBaseBackground}"
+                                                  CaptionSummaryRowBackground="{StaticResource ColorItemBackground}"
+                                                  RowHoveredBackground="{StaticResource ColorHover}"
+                                                  ContextMenuBackground="{StaticResource ColorSectionBackground}" />
+                    </syncfusion:SfDataGrid.DefaultStyle>
+                </syncfusion:SfDataGrid>
+
+            </Grid>
+        </ContentView>
+    </toolkit:DockLayout>
+
+</ContentPage>
