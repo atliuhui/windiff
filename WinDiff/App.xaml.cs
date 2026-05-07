@@ -1,4 +1,4 @@
-﻿namespace windiff
+﻿namespace WinDiff
 {
     public partial class App : Application
     {

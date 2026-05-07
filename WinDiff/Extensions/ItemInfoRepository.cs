@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 
-namespace windiff.Extensions
+namespace WinDiff.Extensions
 {
     public class ItemInfoRepository : INotifyPropertyChanged
     {

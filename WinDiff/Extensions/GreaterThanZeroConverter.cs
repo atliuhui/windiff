@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace windiff
+namespace WinDiff
 {
     public class GreaterThanZeroConverter : IValueConverter
     {

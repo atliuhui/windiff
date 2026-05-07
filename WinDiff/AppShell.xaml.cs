@@ -1,4 +1,4 @@
-﻿namespace windiff
+﻿namespace WinDiff
 {
     public partial class AppShell : Shell
     {

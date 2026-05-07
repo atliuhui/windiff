@@ -2,7 +2,7 @@
 using CoenM.ImageHash.HashAlgorithms;
 using System.IO.Hashing;
 
-namespace windiff.Extensions
+namespace WinDiff.Extensions
 {
     public class FileHashConverter
     {

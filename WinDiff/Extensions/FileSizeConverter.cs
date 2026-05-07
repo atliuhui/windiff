@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace windiff.Extensions
+namespace WinDiff.Extensions
 {
     public class FileSizeConverter
     {

@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace windiff
+namespace WinDiff
 {
     [Application]
     public class MainApplication : MauiApplication

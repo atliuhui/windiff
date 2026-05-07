@@ -2,10 +2,10 @@
 using Syncfusion.Maui.Data;
 using Syncfusion.Maui.DataGrid;
 using System.Globalization;
-using windiff.Extensions;
+using WinDiff.Extensions;
 using MenuItem = Syncfusion.Maui.DataGrid.MenuItem;
 
-namespace windiff
+namespace WinDiff
 {
     public partial class MainPage : ContentPage
     {

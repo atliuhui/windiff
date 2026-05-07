@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace windiff
+namespace WinDiff
 {
     public class Program
     {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 
-namespace windiff
+namespace WinDiff
 {
     public static class MauiProgram
     {
